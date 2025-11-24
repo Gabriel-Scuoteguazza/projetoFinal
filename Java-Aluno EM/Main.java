@@ -14,7 +14,7 @@ public class Main {
 
         // Caminho completo para a DLL
         ImpressoraDLL INSTANCE = (ImpressoraDLL) Native.load(
-                "C:\\Users\\gscuo\\OneDrive\\Desktop\\Projetos 2025",
+                "C:\\Users\\gabriel_portilho\\Desktop\\Java-Aluno EM\\E1_Impressora01.dll",
                 ImpressoraDLL.class
         );
 
@@ -85,7 +85,7 @@ public class Main {
 
 
     public static void configurarConexao() {
-        if (conexaoAberta) {
+        if (!conexaoAberta) {
             Scanner scanner = new Scanner(System.in);
 
             System.out.println("Digite o tipo de conexão (ex: 1 para USB, 2 para serial, etc.): ");
@@ -93,6 +93,7 @@ public class Main {
 
             System.out.println("Digite o modelo: ");
             modelo = scanner.nextLine();
+            scanner.nextLine();
 
             System.out.println("Digite a conexão: ");
             conexao = scanner.nextLine();
@@ -120,21 +121,21 @@ public class Main {
         }
     }
 
+    //`ImpressaoTexto()`          ("Teste de impressao", 1, 4, 0);
+
     public static void impressaoTexto() {
         if (conexaoAberta) {
-            Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Digite o dados: ");
-            String dados = scanner.nextLine();
+            ImpressoraDLL.INSTANCE.LimpaBufferModoPagina();
 
-            System.out.println("Digite a posição (0 - Esquerda / 1 - Centro / 2 - Direita): ");
-            int posicao = scanner.nextInt();
 
-            System.out.println("Digite o estilo (0 - Fonte A / 1 - Fonte B / 2 - Sublinhado / 4 - Modo reverso / 8 - Negrito): ");
-            int estilo = scanner.nextInt();
+            String dados = "Teste de impressão: As aftas ardem e doem e as feridas idem";
 
-            System.out.println("Digite o tamanho (0 - 1x na altura e largura / 1 - 2x na altura / 2 - 3x na altura / 3 - 4x na altura / 4 - 5x na altura / 5 - 6x na altura / 6 - 7x na altura / 7 - 8x na altura / 16 - 2x na largura / 32 - 3x na largura / 48 - 4x na largura / 64 - 5x na largura / 80 - 6x na largura / 96 - 7x na largura / 112 - 8x na largura): ");
-            int tamanho = scanner.nextInt();
+            int posicao = 1;
+
+            int estilo = 4;
+
+            int tamanho = 0;
 
             int retorno = ImpressoraDLL.INSTANCE.ImpressaoTexto(dados, posicao, estilo, tamanho);
 
@@ -146,18 +147,16 @@ public class Main {
         }
     }
 
+
     public static void impressaoQRCode() {
         if (conexaoAberta) {
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Digite o dados: ");
-            String dados = scanner.nextLine();
+            String dados = "Teste de impressao";
 
-            System.out.println("Digite o tamanho (Valores entre 1 e 6): ");
-            int tamanho = scanner.nextInt();
+            int tamanho = 6;
 
-            System.out.println("Digite o nível de correção a ser configurado para o QRCode (1 - 7% / 2 - 15% / 3 - 25% / 4 - 30%): ");
-            int nivelCorrecao = scanner.nextInt();
+            int nivelCorrecao = 4;
 
             int retorno = ImpressoraDLL.INSTANCE.ImpressaoQRCode(dados, tamanho, nivelCorrecao);
 
@@ -169,24 +168,22 @@ public class Main {
         }
     }
 
+    	// - `ImpressaoCodigoBarras()`    (8, "{A012345678912", 100, 2, 3)
+
+
     public static void impressaoCodigoBarras() {
         if(conexaoAberta){
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Digite o modelo (0 - UPC-A / 1 - UPC-E / 2 - JAN13 ou EAN13 / 3 - JAN8 ou EAN8 / 4 - CODE 39 / 5 - ITF / 6 - CODE BAR / 7 - CODE 93 / 8 - CODE 128): ");
-            int tipo = scanner.nextInt();
+            int tipo = 8;
 
-            System.out.println("Digite os dados que compõe o código : ");
-            String dados = scanner.nextLine();
+            String dados = "{A012345678912";
 
-            System.out.println("Digite a altura do código de barras (Valor de 1 até 255): ");
-            int altura = scanner.nextInt();
+            int altura = 100;
 
-            System.out.println("Digite a largura do código de barras (Valor de 1 até 6): ");
-            int largura = scanner.nextInt();
+            int largura = 2;
 
-            System.out.println("Digite a posição de impressão do conteúdo do código de barras (1 - Acima do código / 2 - Abaixo do código / 3 - Ambos / 4 - Não impresso): ");
-            int HRI = scanner.nextInt();
+            int HRI = 3;
 
             int retorno = ImpressoraDLL.INSTANCE.ImpressaoCodigoBarras(tipo, dados, altura, largura, HRI);
 
@@ -198,18 +195,16 @@ public class Main {
         }
     }
 
+    //	- `AbreGaveta()`                  (1, 5, 10)
     public static void abreGaveta() {
         if(conexaoAberta){
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Digite o pino (0 ou 1): ");
-            int pino = scanner.nextInt();
+            int pino = 1;
 
-            System.out.println("Digite o tempo de inicialização do pulso (1 até 255): ");
-            int ti = scanner.nextInt();
+            int ti = 5;
 
-            System.out.println("Digite desativação do pulso. QRCode (1 até 255): ");
-            int tf = scanner.nextInt();
+            int tf = 10;
 
             int retorno = ImpressoraDLL.INSTANCE.AbreGaveta(pino, ti, tf);
 
@@ -221,35 +216,24 @@ public class Main {
         }
     }
 
+    	// - `AbreGavetaElgin()`            (1, 50, 50)
     public static void abreGavetaElgin() {
         if(conexaoAberta){
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.println("Digite o pino (0 ou 1): ");
-            int pino = scanner.nextInt();
-
-            System.out.println("Digite o tempo de inicialização do pulso (1 até 255): ");
-            int ti = scanner.nextInt();
-
-            System.out.println("Digite desativação do pulso. QRCode (1 até 255): ");
-            int tf = scanner.nextInt();
-
             int retorno = ImpressoraDLL.INSTANCE.AbreGavetaElgin();
         }
     }
 
+
+    	// - `SinalSonoro()`				 (4,5,5)
     public static void sinalSonoro() {
         if(conexaoAberta){
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Digite a quantidade de sinais emitidos (valor deve ser entre 1 e 63): ");
-            int qtd = scanner.nextInt();
+            int qtd = 4;
 
-            System.out.println("Digite o tempo em que o sinal deve ficar ativo: ");
-            int tempoInicio	 = scanner.nextInt();
+            int tempoInicio	 = 5;
 
-            System.out.println("Digite o tempo entre um sinal e outro (tempo deve ser de 1 à 25): ");
-            int tempoFim = scanner.nextInt(); //Multiplicar por 100
+            int tempoFim = 5; //Multiplicar por 100
 
             int retorno = ImpressoraDLL.INSTANCE.SinalSonoro(qtd, tempoInicio, tempoFim);
 
@@ -261,10 +245,11 @@ public class Main {
         }
     }
 
+    //	- `Corte()`						(2)  usar sempre após a impressao de algum documento
     public static void corte() {
         if(conexaoAberta){
-            System.out.println("Digite o quanto o papel deve avançar antes do corte: ");
-            int avanco = scanner.nextInt();
+
+            int avanco = 2;
 
             int retorno = ImpressoraDLL.INSTANCE.Corte(avanco);
 
@@ -276,10 +261,10 @@ public class Main {
         }
     }
 
+    	// - `AvancaPapel()`                 (2)  usar sempre após a impressao de algum documento
     public static void avancaPapel() {
         if(conexaoAberta){
-            System.out.println("Digite o quantas linhas devem avançar: ");
-            int linhas = scanner.nextInt();
+            int linhas = 2;
 
             int retorno = ImpressoraDLL.INSTANCE.AvancaPapel(linhas);
 
@@ -294,36 +279,27 @@ public class Main {
 
     public static void imprimeXMLSAT() {
         if(conexaoAberta){
-            System.out.println("Digite os dados (Conteúdo do XML de retorno da venda do SAT ou Caminho para arquivo com dados do SAT prefixado com path=, ex:path=C:/Resposta SAT/CFe35210130197161000935590008544130085892910578.xml): ");
-            String dados = scanner.nextLine();
+            String dados = "path=C:\\Users\\gabriel_portilho\\Desktop\\Java-Aluno EM\\XMLSAT.xml";
 
-            System.out.println("0 - Impressão do logo no cabeçalho / 1 - Extrato reduzido / 2 - Cupom em ambiente de teste / 6 - Registro de item com desconto ou acréscimo e variações no grupo totais / 7 - Imprime usando novo layout / 8 - Ativa separadores no novo layout");
-            int param = scanner.nextInt();
+            int retorno = ImpressoraDLL.INSTANCE.ImprimeXMLSAT(dados, 0);
 
-            int retorno = ImpressoraDLL.INSTANCE.ImprimeXMLSAT(dados, param);
-
-            if (retorno == 0) {
-                System.out.println("Xl SAT impresso com sucesso.");
+            if(retorno == 0) {
+                System.out.println("Impressão Xl SAT cancelada com sucesso.");
             } else {
-                System.out.println("Erro ao imprimir XL SAT. Código: " + retorno);
+                System.out.println("Erro ao cancelar a impressão do XL SAT. Código: " + retorno);
             }
         }
     }
 
     public static void imprimeXMLCancelamentoSAT() {
         if(conexaoAberta){
-            System.out.println("Digite os dados (Conteúdo do XML de retorno da venda do SAT ou Caminho para arquivo com dados do SAT prefixado com path=, ex:path=C:/Resposta SAT/CFe35210130197161000935590008544130085892910578.xml): ");
-            String dados = scanner.nextLine();
+            String dados = "path=C:\\Users\\gabriel_portilho\\Desktop\\Java-Aluno EM\\CANC_SAT.xml";
 
-            System.out.println("Digite os dados a assinatura do QRCode retornado na operação de Venda: ");
-            String assQRCode = scanner.nextLine();
+            String assQRCode = "Q5DLkpdRijIRGY6YSSNsTWK1TztHL1vD0V1Jc4spo/CEUqICEb9SFy82ym8EhBRZjbh3btsZhF+sjHqEMR159i4agru9x6KsepK/q0E2e5xlU5cv3m1woYfgHyOkWDNcSdMsS6bBh2Bpq6s89yJ9Q6qh/J8YHi306ce9Tqb/drKvN2XdE5noRSS32TAWuaQEVd7u+TrvXlOQsE3fHR1D5f1saUwQLPSdIv01NF6Ny7jZwjCwv1uNDgGZONJdlTJ6p0ccqnZvuE70aHOI09elpjEO6Cd+orI7XHHrFCwhFhAcbalc+ZfO5b/+vkyAHS6CYVFCDtYR9Hi5qgdk31v23w==";
 
-            System.out.println("0 - Impressão do logo no cabeçalho / 6 - Imprime usando novo layout / 7 - Ativa separadores no novo layout");
-            int param = scanner.nextInt();
+            int retorno = ImpressoraDLL.INSTANCE.ImprimeXMLCancelamentoSAT(dados, assQRCode, 0);
 
-            int retorno = ImpressoraDLL.INSTANCE.ImprimeXMLCancelamentoSAT(dados, assQRCode, param);
-
-            if (retorno == 0) {
+            if(retorno == 0) {
                 System.out.println("Impressão Xl SAT cancelada com sucesso.");
             } else {
                 System.out.println("Erro ao cancelar a impressão do XL SAT. Código: " + retorno);
@@ -336,16 +312,10 @@ public class Main {
 
     //criar o restante das funçoes aqui!
 
-	/* - `ImpressaoTexto()`          ("Teste de impressao", 1, 4, 0);
-	- `Corte()`						(2)  usar sempre após a impressao de algum documento
+	/* -
 	- `ImpressaoQRCode()`            ("Teste de impressao", 6, 4)
-	- `ImpressaoCodigoBarras()`    (8, "{A012345678912", 100, 2, 3)
-	- `AvancaPapel()`                 (2)  usar sempre após a impressao de algum documento
-	- `AbreGavetaElgin()`            (1, 50, 50)
-	- `AbreGaveta()`                  (1, 5, 10)
-	- `SinalSonoro()`				 (4,5,5)
 	- `ImprimeXMLSAT()`
-	- `ImprimeXMLCancelamentoSAT()`    (assQRCode = "Q5DLkpdRijIRGY6YSSNsTWK1TztHL1vD0V1Jc4spo/CEUqICEb9SFy82ym8EhBRZjbh3btsZhF+sjHqEMR159i4agru9x6KsepK/q0E2e5xlU5cv3m1woYfgHyOkWDNcSdMsS6bBh2Bpq6s89yJ9Q6qh/J8YHi306ce9Tqb/drKvN2XdE5noRSS32TAWuaQEVd7u+TrvXlOQsE3fHR1D5f1saUwQLPSdIv01NF6Ny7jZwjCwv1uNDgGZONJdlTJ6p0ccqnZvuE70aHOI09elpjEO6Cd+orI7XHHrFCwhFhAcbalc+ZfO5b/+vkyAHS6CYVFCDtYR9Hi5qgdk31v23w==";)
+	- `ImprimeXMLCancelamentoSAT()`    (assQRCode = ;)
 	*/
 
 
@@ -360,18 +330,12 @@ public class Main {
             System.out.println("3 - Impressao Texto");
             System.out.println("4 - Impressao QRCode");
             System.out.println("5 - Impressao Cod Barras");
-            System.out.println("8 - Impressao XML SAT");
-            System.out.println("9 - Impressao XML Canc SAT");
-            System.out.println("10 - Abrir Gaveta Elgin");
-            System.out.println("11 - Abrir Gaveta");
-            System.out.println("12 - Sinal Sonoro");
-            System.out.println("13 - Corte");
-            System.out.println("14 - Avançar papel");
-
-
-
+            System.out.println("6 - Impressao XML SAT");
+            System.out.println("7 - Impressao XML SAT");
+            System.out.println("8 - Abrir Gaveta Elgin");
+            System.out.println("9 - Abrir Gaveta");
+            System.out.println("10 - Sinal Sonoro");
             System.out.println("0 - Fechar Conexao e Sair");
-
 
             String escolha = capturarEntrada("\nDigite a opção desejada: ");
 
@@ -380,7 +344,6 @@ public class Main {
                 System.out.println("Programa encerrado.");
                 break;
             }
-
             switch (escolha) {
                 case "1":
                     //chamar as funçoes aqui
@@ -391,92 +354,40 @@ public class Main {
                     break;
                 case "3":
                     impressaoTexto();
+                    ImpressoraDLL.INSTANCE.Corte(2);
+                    ImpressoraDLL.INSTANCE.AvancaPapel(2);
                     break;
                 case "4":
                     impressaoQRCode();
+                    ImpressoraDLL.INSTANCE.Corte(2);
+                    ImpressoraDLL.INSTANCE.AvancaPapel(2);
                     break;
                 case "5":
                     impressaoCodigoBarras();
+                    ImpressoraDLL.INSTANCE.Corte(2);
+                    ImpressoraDLL.INSTANCE.AvancaPapel(2);
+
                     break;
                 case "6":
-                    if (conexaoAberta) {
-                        JFileChooser fileChooser = new JFileChooser();
-                        fileChooser.setCurrentDirectory(new File(".")); // Diretório atual do programa
-                        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos XML", "xml"));
+                    imprimeXMLSAT();
+                    ImpressoraDLL.INSTANCE.Corte(2);
+                    ImpressoraDLL.INSTANCE.AvancaPapel(2);
 
-                        int result = fileChooser.showOpenDialog(null);
-
-                        if (result == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser.getSelectedFile();
-                            String path = selectedFile.getAbsolutePath();
-
-                            try {
-                                String conteudoXML = lerArquivoComoString(path);
-                                int retImpXMLSAT = ImpressoraDLL.INSTANCE.ImprimeXMLSAT(conteudoXML, 0);
-                                ImpressoraDLL.INSTANCE.Corte(5);
-                                System.out.println(retImpXMLSAT == 0 ? "Impressão de XML realizada" : "Erro ao realizar a impressão do XML SAT! Retorno: " + retImpXMLSAT);
-                            } catch (IOException e) {
-                                System.out.println("Erro ao ler o arquivo XML: " + e.getMessage());
-                            }
-                        } else {
-                            System.out.println("Nenhum arquivo selecionado.");
-                        }
-                    } else {
-                        System.out.println("Erro: Conexão não está aberta.");
-                    }
                     break;
-
                 case "7":
-                    if (conexaoAberta) {
-                        JFileChooser fileChooser = new JFileChooser();
-                        fileChooser.setCurrentDirectory(new File(".")); // Diretório atual do programa
-                        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos XML", "xml"));
-                        String assQRCode = "Q5DLkpdRijIRGY6YSSNsTWK1TztHL1vD0V1Jc4spo/CEUqICEb9SFy82ym8EhBRZjbh3btsZhF+sjHqEMR159i4agru9x6KsepK/q0E2e5xlU5cv3m1woYfgHyOkWDNcSdMsS6bBh2Bpq6s89yJ9Q6qh/J8YHi306ce9Tqb/drKvN2XdE5noRSS32TAWuaQEVd7u+TrvXlOQsE3fHR1D5f1saUwQLPSdIv01NF6Ny7jZwjCwv1uNDgGZONJdlTJ6p0ccqnZvuE70aHOI09elpjEO6Cd+orI7XHHrFCwhFhAcbalc+ZfO5b/+vkyAHS6CYVFCDtYR9Hi5qgdk31v23w==";
+                    imprimeXMLCancelamentoSAT();
+                    ImpressoraDLL.INSTANCE.Corte(2);
+                    ImpressoraDLL.INSTANCE.AvancaPapel(2);
 
-                        int result = fileChooser.showOpenDialog(null);
-
-                        if (result == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser.getSelectedFile();
-                            String path = selectedFile.getAbsolutePath();
-
-                            try {
-                                String conteudoXML = lerArquivoComoString(path);
-                                int retImpCanXMLSAT = ImpressoraDLL.INSTANCE.ImprimeXMLCancelamentoSAT(conteudoXML, assQRCode, 0);
-                                ImpressoraDLL.INSTANCE.Corte(5);
-                                System.out.println(retImpCanXMLSAT == 0 ? "Impressão de XML de Cancelamento realizada" : "Erro ao realizar a impressão do XML de Cancelamento SAT! Retorno: " + retImpCanXMLSAT);
-                            } catch (IOException e) {
-                                System.out.println("Erro ao ler o arquivo XML: " + e.getMessage());
-                            }
-                        } else {
-                            System.out.println("Nenhum arquivo selecionado.");
-                        }
-                    } else {
-                        System.out.println("Erro: Conexão não está aberta.");
-                    }
                     break;
                 case "8":
-                    imprimeXMLSAT();
-                    break;
-                case "9":
-                    imprimeXMLCancelamentoSAT();
-                    break;
-                case "10":
                     abreGavetaElgin();
                     break;
-                case "11":
+                case "9":
                     abreGaveta();
                     break;
-                case "12":
+                case "10":
                     sinalSonoro();
-                    break;
-                case "13":
-                    abreGaveta();
-                    break;
-                case "14":
-                    corte();
-                    break;
-                case "15":
-                    avancaPapel();
                     break;
                 default:
                     System.out.println("OPÇÃO INVÁLIDA");
