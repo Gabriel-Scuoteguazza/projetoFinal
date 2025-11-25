@@ -1,3 +1,5 @@
+Autores: Enzo Marques, Gabriel Scuoteguazza, Giulia Freitas e Ystella Eiko
+
 Documentação das Funções da DLL da Impressora
 
 A função ImpressaoTexto imprime um texto simples na impressora. Ela recebe o texto, o alinhamento (0 para esquerda, 1 para centro e 2 para direita), o estilo do texto (como negrito ou expandido) e o tamanho da fonte.
